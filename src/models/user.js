@@ -2,6 +2,9 @@
 const {
   Model
 } = require('sequelize');
+
+const bcrypt = require('bcrypt')
+const { SALT } = require('../config/serverConfig');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -18,8 +21,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate:{
-        isEmail: true
+      validate: {
+        isEmail: true,
+
       }
     },
     password: {
@@ -35,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Password must be between 8 and 100 characters long',
         },
         is: {
-          args: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/, // (?=.*) this means atleast one character is, ?= is positive lookahead
+          args: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/, // (?=.*) this means atleast one character, ?= is positive lookahead
           msg: 'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character',
         },
         notContains: {
@@ -49,5 +53,10 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
+
+  User.beforeCreate((user) => {
+    const encryptedPassword = bcrypt.hashSync(user.password, SALT)
+    user.password = encryptedPassword;
+  })
   return User;
 };
