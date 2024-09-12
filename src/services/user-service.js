@@ -40,6 +40,24 @@ class UserService {
         }
     }
 
+    async isAuthenticated(token) {
+        try {
+            const response = this.verifyToken(token); //response is an object, which will look like { email: 'vishant@admin.com', id: 1, iat: 1726128140, exp: 1726300940 }
+            if(!response){
+                throw {error: 'Invalid token'}
+            }
+            const user = this.userRepository.getById(response.id);
+            if(!user){ //to check whether the user exists or not
+                throw {error: 'No user with the corresponding token exists'}
+            }
+            //if exists then
+            return user.id; 
+        } catch (error) {
+            console.log("Something went wrong in the auth process")
+            throw error;
+        }
+    }
+
     createToken(user) {
         try {
             const result = jwt.sign(user, JWT_KEY, { expiresIn: '2d' });  //token will be expired in 2 days. We can also write this as 48h
@@ -68,6 +86,8 @@ class UserService {
             throw error;
         }
     }
+
+    
 }
 
 module.exports = UserService
