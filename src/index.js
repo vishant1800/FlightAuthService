@@ -3,10 +3,8 @@ const bodyParser = require('body-parser')
 const apiRoutes = require('./routes/index')
 const { PORT } = require("./config/serverConfig");
 
-// const bcrypt = require('bcrypt')
-// const { User } = require('./models/index')
-
-const UserRepository = require('./repository/user-repository')
+// const UserService = require('./services/user-service')
+// const jwt = require('jsonwebtoken')
 
 const app = express();
 
@@ -20,15 +18,14 @@ const StartServer = async () => {
     app.listen(PORT, async() => {
         console.log(`Server started at port ${PORT}`);
 
-        // const incomingPassword = "Money@1800";
-        // const user = await User.findByPk(5);
-        // const response = bcrypt.compareSync(incomingPassword, user.password);
-        // console.log(response);
 
-        // const obj = new UserRepository();
-        // const response = await obj.getById(5);
-        // console.log(response);
+        // const service = new UserService();
+        // const newToken = service.createToken({email: 'vishant@admin.com', id: 1});
+        // console.log("New token is", newToken);
 
+        // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZpc2hhbnRAYWRtaW4uY29tIiwiaWQiOjEsImlhdCI6MTcyNjEyODYwNCwiZXhwIjoxNzI2MTI4NjM0fQ.XJtrnbpNUWdaOK6dw1TarjIWK8LoA8q6rhfkua8SSJk'
+        // const verify = service.verifyToken(token);
+        // console.log(verify);
     })
 }
 
