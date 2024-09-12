@@ -6,6 +6,8 @@ const { PORT } = require("./config/serverConfig");
 // const UserService = require('./services/user-service')
 // const jwt = require('jsonwebtoken')
 
+const db = require('./models/index')
+
 const app = express();
 
 const StartServer = async () => {
@@ -17,6 +19,10 @@ const StartServer = async () => {
 
     app.listen(PORT, async() => {
         console.log(`Server started at port ${PORT}`);
+
+        if(process.env.DB_SYNC){
+            db.sequelize.sync({alert: true})
+        }
 
 
         // const service = new UserService();

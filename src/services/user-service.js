@@ -32,7 +32,7 @@ class UserService {
             }
 
             //If password match then create a token and send it to the user
-            const newJWT = await this.createToken({email: user.email, id: user.id});
+            const newJWT = this.createToken({email: user.email, id: user.id});
             return newJWT;
         } catch (error) {
             console.log("Something went wrong in the sign in process");
@@ -46,7 +46,7 @@ class UserService {
             if(!response){
                 throw {error: 'Invalid token'}
             }
-            const user = this.userRepository.getById(response.id);
+            const user = await this.userRepository.getById(response.id);
             if(!user){ //to check whether the user exists or not
                 throw {error: 'No user with the corresponding token exists'}
             }
