@@ -1,5 +1,5 @@
 const validateUserAuth = (req, res, next) => {
-    if(!req.body.email || !req.body.password){
+    if (!req.body.email || !req.body.password) {
         return res.status(400).json({
             data: {},
             success: false,
@@ -11,8 +11,8 @@ const validateUserAuth = (req, res, next) => {
     next();
 }
 
-const validateIsAdminRequest = (req, res, next) => {
-    if(!req.body.id){
+const validateRoleRequest = (req, res, next) => {
+    if (!req.body.id) {
         return res.status(400).json({
             data: {},
             success: false,
@@ -25,5 +25,5 @@ const validateIsAdminRequest = (req, res, next) => {
 
 module.exports = {
     validateUserAuth,
-    validateIsAdminRequest
+    validateRoleRequest
 }

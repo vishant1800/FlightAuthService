@@ -6,12 +6,12 @@ const { AuthRequestValidators } = require('../../middlewares/index')
 const router = express.Router();
 
 router.post(
-    '/signup', 
+    '/signup',
     AuthRequestValidators.validateUserAuth,
     UserController.create
 );
 router.post(
-    '/signin', 
+    '/signin',
     AuthRequestValidators.validateUserAuth,
     UserController.signIn
 );
@@ -21,7 +21,17 @@ router.get(
 )
 router.get(
     '/isAdmin',
-    AuthRequestValidators.validateIsAdminRequest,
+    AuthRequestValidators.validateRoleRequest,
     UserController.isAdmin
+)
+router.get(
+    '/isCustomer',
+    AuthRequestValidators.validateRoleRequest,
+    UserController.isCustomer
+)
+router.get(
+    '/isAirlineBusiness',
+    AuthRequestValidators.validateRoleRequest,
+    UserController.isAirlineBusiness
 )
 module.exports = router;

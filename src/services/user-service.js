@@ -96,6 +96,24 @@ class UserService {
         }
     } 
 
+    isCustomer(userId) {
+        try {
+            return this.userRepository.isCustomer(userId);
+        } catch (error) {
+            console.log("Something went wrong in service layer");
+            throw error;
+        }
+    } 
+
+    isAirlineBusiness(userId) {
+        try {
+            return this.userRepository.isAirlineBusiness(userId);
+        } catch (error) {
+            console.log("Something went wrong in service layer");
+            throw error;
+        }
+    } 
+
     
 }
 

@@ -70,9 +70,49 @@ const isAdmin = async (req, res) => {
     try {
         const response = await userService.isAdmin(req.body.id);
         return res.status(201).json({
+            data: response,
+            success: true,
+            message: "Successfully fetched whether user is admin or not",
+            err: {}
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Something went wrong",
+            data: {},
+            success: false,
+            err: error
+        })
+    }
+}
+
+const isCustomer = async (req, res) => {
+    try {
+        const response = await userService.isCustomer(req.body.id);
+        return res.status(201).json({
             success: true,
             data: response,
-            message: "Successfully fetched whether user is admin or not",
+            message: "Successfully fetched whether user is customer or not",
+            err: {}
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Something went wrong",
+            data: {},
+            success: false,
+            err: error
+        })
+    }
+}
+
+const isAirlineBusiness = async (req, res) => {
+    try {
+        const response = await userService.isAirlineBusiness(req.body.id);
+        return res.status(201).json({
+            success: true,
+            data: response,
+            message: "Successfully fetched whether user has airline business or not",
             err: {}
         })
     } catch (error) {
@@ -90,5 +130,7 @@ module.exports = {
     create,
     signIn,
     isAuthenticated,
-    isAdmin
+    isAdmin,
+    isCustomer,
+    isAirlineBusiness
 }

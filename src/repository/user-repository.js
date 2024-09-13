@@ -64,6 +64,36 @@ class UserRepository {
             throw error;
         }
     }
+
+    async isCustomer(userId) {
+        try {
+            const user = await User.findByPk(userId);
+            const customerRole = await Role.findOne({
+                where: {
+                    name: 'CUSTOMER'
+                }
+            })
+            return user.hasRole(customerRole);
+        } catch (error) {
+            console.log("Something went wrong in repository layer");
+            throw error;
+        }
+    }
+
+    async isAirlineBusiness(userId) {
+        try {
+            const user = await User.findByPk(userId);
+            const AirlineRole = await Role.findOne({
+                where: {
+                    name: 'AIRLINE BUSINESS'
+                }
+            })
+            return user.hasRole(AirlineRole);
+        } catch (error) {
+            console.log("Something went wrong in repository layer");
+            throw error;
+        }
+    }
 }
 
 module.exports = UserRepository
