@@ -1,8 +1,9 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
 const UserRepository = require('../repository/user-repository')
 const { JWT_KEY } = require('../config/serverConfig')
+const AppErrors = require('../utils/error-handler')
 
 class UserService {
     constructor() {
@@ -14,8 +15,19 @@ class UserService {
             const user = await this.userRepository.create(data);
             return user;
         } catch (error) {
+            if(error.name == 'SequelizeValidationError') {
+                throw error;
+            }
             console.log("Something went wrong in the service layer")
-            throw { error }
+            throw error;
+
+            // This is how we can throw custom error
+            // throw new AppErrors (
+            //     'ServerError',
+            //     'Something went wrong in service',
+            //     'Logical issue found',
+            //     500
+            // )
         }
     }
 
@@ -24,7 +36,7 @@ class UserService {
             // step -> 1 - fetch the user using the email
             const user = await this.userRepository.getByEmail(email);
             // step -> 2 - compare incoming password with stored encrypted password
-            const passwordMatch = await this.checkPassword(plainPassword, user.password);
+            const passwordMatch = this.checkPassword(plainPassword, user.password);
 
             if(!passwordMatch) {
                 console.log("Password doesn't match");
